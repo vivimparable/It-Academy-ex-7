@@ -18,11 +18,7 @@
         v-on:restarPagina="calcRestarPaginas"
          />
 
-        <p v-if="paginas == 1">Vols només {{paginas}} pàgina</p>
-        <p v-if="paginas>1" > Vols un total de {{paginas}} pàgines.</p>
-
-        <p v-if="idiomas == 1">Vols només {{idiomas}} idioma</p>
-        <p v-if="idiomas>1" > Vols un total de {{idiomas}} idiomes.</p>
+        
       <hr>
 
       
@@ -61,35 +57,35 @@ export default {
       checkedWeb:false,
       checkedSeo:false,
       checkedAds:false,
-      preuWeb: 500,
+      preuWeb: 500, //Posar en array
       preuSeo:300,
       preuAds:200,
-      paginas:0,
-      idiomas:0,
+      paginas:1, //Posar en array
+      idiomas:1,
       
     }
   },methods:{
 
     //inputs calcular
-    calctotalpaginas(a){
-        this.paginas=a;
+    calctotalpaginas(paginaInput){
+        this.paginas=paginaInput;
     },
-    calctotalidiomas(b){
-        this.idiomas=b;   
+    calctotalidiomas(idiomaInput){
+        this.idiomas=idiomaInput;   
     },
     //butons calcular idioma
-    calcRestarIdioma(d){
-        this.idiomas=d; 
+    calcRestarIdioma(idiomaResta){
+        this.idiomas=idiomaResta; 
     },
-    calcSumarIdioma(c){
-        this.idiomas=c;
+    calcSumarIdioma(idiomaSuma){
+        this.idiomas=idiomaSuma;
     },
     //butons calcular paginas
-    calcSumarPaginas(e){
-        this.paginas=e;
+    calcSumarPaginas(paginaSuma){
+        this.paginas=paginaSuma;
       },
-    calcRestarPaginas(f){
-        this.paginas=f;
+    calcRestarPaginas(paginaResta){
+        this.paginas=paginaResta;
     }
 
   },computed:{

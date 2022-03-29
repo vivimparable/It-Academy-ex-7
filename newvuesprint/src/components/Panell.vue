@@ -4,16 +4,20 @@
 
     <label for="pagina">Número de pàgines</label>
     <button @click="calctotalPaginasSumar" type="button">+</button>
-    <input  @keyup="calctotalPaginas" type="text" v-model="paginas" name="pag" >
+    <input @keypress="filtraNumeros" @keyup="calctotalPaginas" type="text" v-model.number="paginas" name="pag" >
     <button @click="calcTotalPaginasRestar" type="button">-</button>
   <hr>
     <label for="idioma" >Número d'idiomes</label>
     <button @click="calctotalIdiomaSumar" type="button">+</button>
-    <input  @keyup="calctotalIdiomas" type="text" v-model="idiomas" name="lang" >
+    <input @keypress="filtraNumeros" @keyup="calctotalIdiomas" type="text" v-model.number="idiomas" name="lang" >
     <button @click="calcTotalIdiomaRestar" type="button">-</button>
   
 
-  
+  <p v-if="paginas == 1">Vols només {{paginas}} pàgina</p>
+        <p v-if="paginas>1" > Vols un total de {{paginas}} pàgines.</p>
+
+        <p v-if="idiomas == 1">Vols només {{idiomas}} idioma</p>
+        <p v-if="idiomas>1" > Vols un total de {{idiomas}} idiomes.</p>
 
   </div>
   
@@ -25,33 +29,42 @@ export default {
   props: {
     clicatWeb: Boolean,
     numPaginas:Number,
-    numIdiomas:Number
+    numIdiomas:Number,
+    cantidad:Number
   },data(){
     return{
       
       idiomas:this.numIdiomas,
       paginas:this.numPaginas,
       
+      
     }
   },
     methods:{
+     
+      filtraNumeros(filtra) {
+          if(filtra.keyCode < 48 || filtra.keyCode > 57) {
+            filtra.preventDefault();
+          }
+      },
       calctotalPaginas(){
-        if(this.paginas.length==0){
-          this.paginas=0
+       
+        if(this.paginas.length==0|| this.paginas==0){
+          this.paginas=1;
         }else{
            this.$emit('totalPags',parseInt(this.paginas)) 
         }
       },calctotalIdiomas(){
-        if(this.idiomas.length==0){
-          this.idiomas=0
+        if(this.idiomas.length==0 || this.idiomas==0){
+          this.idiomas=1;
         }else{
-           this.$emit('totalidioms',parseInt(this.idiomas)) 
+            this.$emit('totalidioms',parseInt(this.idiomas)) 
         }
       },calctotalIdiomaSumar(){
         this.idiomas++;
         this.$emit('sumarIdioma',parseInt(this.idiomas)) 
       },calcTotalIdiomaRestar(){
-        if(this.idiomas>0){
+        if(this.idiomas>1){
           this.idiomas--;
           this.$emit('restarIdioma',parseInt(this.idiomas))
         }   
@@ -59,7 +72,7 @@ export default {
         this.paginas++;
         this.$emit('sumarPagina',parseInt(this.paginas)) 
       },calcTotalPaginasRestar(){
-        if(this.paginas>0){
+        if(this.paginas>1){
           this.paginas--;
           this.$emit('restarPagina',parseInt(this.paginas))
         }
